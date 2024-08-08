@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Color palette -->
+    <color name="purpleDarkCP">#1C0C5B</color>
+    <color name="purpleNormalCP">#3D2C8D</color>
+    <color name="purpleAccentCP">#916BBF</color>
+    <color name="purpleLightCP">#C996CC</color>
+
+</resources>
