@@ -1,7 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">Microformas</string>
-
     <string name="title_activity_maps">MapsActivity</string>
 
     <!-- Permissions -->
@@ -10,13 +10,13 @@
     <string name="permission_required_toast">Location permission is required for this demo.</string>
 
     <!-- Login -->
-    <string name="btn_login">Log in</string>
-    <string name="password">Password</string>
-    <string name="username">Username</string>
+    <string name="btn_login">Iniciar Sesión</string>
+    <string name="password">Contraseña</string>
+    <string name="username">Usuario</string>
 
     <!-- Main -->
-    <string name="welcome_title">Welcome!</string>
-    <string name="welcome_subtitle">Know your location</string>
-    <string name="location_btn">Location</string>
+    <string name="welcome_title">Bienvenido</string>
+    <string name="welcome_subtitle">Conoce tu ubicación</string>
+    <string name="location_btn">Mi ubicación</string>
 
 </resources>

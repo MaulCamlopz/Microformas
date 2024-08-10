@@ -4,18 +4,22 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.ListView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.microformas.adapter.ServiceAdapter
 import com.example.microformas.model.ServiceAPIFactory
+import com.example.microformas.model.ServiceModel
 import kotlinx.coroutines.launch
 import java.net.SocketTimeoutException
 
 class MainActivity : AppCompatActivity() {
+
+    var serviceList: List<ServiceModel> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,34 +41,28 @@ class MainActivity : AppCompatActivity() {
         val service = ServiceAPIFactory.makeServiceAPI()
 
         lifecycleScope.launch {
-
             try {
                 val response = service.getServiceData()
-
-                val descriptionList: MutableList<String> = mutableListOf()
-                val idList: MutableList<Long> = mutableListOf()
-
-                response.data.forEach {
-                    descriptionList.add(it.description)
-                    idList.add(it.id)
-                }
-
-                println("LIST RESPONSE - SIZE = ${idList.count()}")
-
+                serviceList = response.data
+                println("SERVICE_LIST ON_RESPONSE - SIZE = ${serviceList.size}")
                 runOnUiThread {
-                    val serviceListView = findViewById<ListView>(R.id.serviceList)
-                    val arrayAdapter: ArrayAdapter<*> =
-                        ArrayAdapter(baseContext, android.R.layout.simple_list_item_1, descriptionList)
-                    serviceListView.adapter = arrayAdapter
                     progressBar.visibility = View.GONE
-                    serviceListView.visibility = View.VISIBLE
+                    initRecyclerView()
                 }
-
             } catch (e: SocketTimeoutException) {
-                Log.e("Error", "Timeout exception", e)
+                Log.e("Error", "Timeout exception")
                 runOnUiThread {
                     progressBar.visibility = View.GONE
                     val text = "Tiemout"
+                    val duration = Toast.LENGTH_SHORT
+                    val toast = Toast.makeText(baseContext, text, duration)
+                    toast.show()
+                }
+            } catch (e: Exception) {
+                Log.e("Error", "${e.message}")
+                runOnUiThread {
+                    progressBar.visibility = View.GONE
+                    val text = "ERROR"
                     val duration = Toast.LENGTH_SHORT
                     val toast = Toast.makeText(baseContext, text, duration)
                     toast.show()
@@ -73,6 +71,13 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    private fun initRecyclerView() {
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView_serviceList)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = ServiceAdapter(serviceList)
+        recyclerView.visibility = View.VISIBLE
     }
 
 }
